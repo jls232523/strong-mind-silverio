@@ -27,7 +27,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = 0
+
+AUTH_USER_MODEL = 'user.User'
 
 
 
@@ -40,8 +42,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sessions.backends.db',
 
-    'rest_framework'
+    'rest_framework',
+    'rest_framework.authtoken',
+    "drf_spectacular",
+
+    "silverio_pizza.topping",
+    "silverio_pizza.pizza",
+    "silverio_pizza.user",
+    "silverio_pizza.pizza_shop",
 ]
 
 MIDDLEWARE = [
@@ -109,11 +119,22 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-REST_FRAMEWORK = {}
+REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Silverio Pizza",
+}

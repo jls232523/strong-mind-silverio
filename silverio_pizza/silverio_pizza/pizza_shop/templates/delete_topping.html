@@ -1,0 +1,12 @@
+{% extends 'index.html' %}
+
+{% block title %}Update Topping - Pizza Shop{% endblock %}
+
+{% block content %}
+    <h2>Update Topping</h2>
+    <form id="delete-form" method="POST" action="{% url 'delete-topping' pizza.id %}">
+        {% csrf_token %}
+        <input type="hidden" name="_method" value="DELETE">
+        <button type="submit">Confirm Delete</button>
+    </form>
+{% endblock %}

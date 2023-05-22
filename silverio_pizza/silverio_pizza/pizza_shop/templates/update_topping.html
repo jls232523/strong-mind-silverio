@@ -1,0 +1,15 @@
+{% extends 'index.html' %}
+
+{% block title %}Update Topping - Pizza Shop{% endblock %}
+
+{% block content %}
+    <h2>Update Topping</h2>
+    <form method="post" id="update-form">
+        {% csrf_token %}
+        <input type="hidden" id="method-input" name="_method" value="PATCH">
+        <label for="name">Topping Name:</label>
+        <input type="text" id="name-input" name="name" value="{{ topping.name }}" required>
+
+        <button type="submit" id="submit-button">Update Topping</button>
+    </form>
+{% endblock %}

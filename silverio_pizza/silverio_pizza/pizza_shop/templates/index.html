@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Silverio Pizza{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <h1>Silverio Pizza</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+            <p>Choose your role:</p>
+            <a href="{% url 'login-chef' %}" role="button">Chef</a>
+            <a href="{% url 'login-owner' %}" role="button">Owner</a>
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Pizza Shop</p>
+    </footer>
+</body>
+</html>

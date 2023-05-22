@@ -1,0 +1,554 @@
+openapi: 3.0.3
+info:
+  title: Silverio Pizza
+  version: 0.0.0
+paths:
+  /api/pizza/:
+    get:
+      operationId: api_pizza_list
+      description: A Viewset to CRUD pizzas
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pizza'
+          description: ''
+    post:
+      operationId: api_pizza_create
+      description: A Viewset to CRUD pizzas
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pizza'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Pizza'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Pizza'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pizza'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pizza'
+              examples:
+                DuplicatePizza:
+                  value:
+                    error: 'Duplicate Pizza: <name>'
+                  summary: Duplicate Pizza
+                DuplicateToppings:
+                  value:
+                    error: Toppings already exist for another pizza
+                  summary: Duplicate Toppings
+                ToppingDoesNotExist:
+                  value:
+                    error: Topping {topping_name} does not exist
+                  summary: Topping Does Not Exist
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pizza'
+              examples:
+                Forbidden:
+                  value:
+                    detail: Authentication credentials were not provided.
+                NotOwner:
+                  value:
+                    detail: Only chefs are allowed to create pizzas.
+                  summary: Not Owner
+          description: ''
+  /api/pizza/{id}/:
+    patch:
+      operationId: api_pizza_partial_update
+      description: A Viewset to CRUD pizzas
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this pizza.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedPizza'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedPizza'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedPizza'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Topping'
+          description: ''
+    delete:
+      operationId: api_pizza_destroy
+      description: A Viewset to CRUD pizzas
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this pizza.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/pizza_masterpiece/:
+    get:
+      operationId: api_pizza_masterpiece_list
+      description: A Viewset to view all pizza masterpieces
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PizzaMasterPiece'
+          description: ''
+  /api/schema/:
+    get:
+      operationId: api_schema_retrieve
+      description: |-
+        OpenApi3 schema for this API. Format can be selected via content negotiation.
+
+        - YAML: application/vnd.oai.openapi
+        - JSON: application/vnd.oai.openapi+json
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - json
+          - yaml
+      - in: query
+        name: lang
+        schema:
+          type: string
+          enum:
+          - af
+          - ar
+          - ar-dz
+          - ast
+          - az
+          - be
+          - bg
+          - bn
+          - br
+          - bs
+          - ca
+          - ckb
+          - cs
+          - cy
+          - da
+          - de
+          - dsb
+          - el
+          - en
+          - en-au
+          - en-gb
+          - eo
+          - es
+          - es-ar
+          - es-co
+          - es-mx
+          - es-ni
+          - es-ve
+          - et
+          - eu
+          - fa
+          - fi
+          - fr
+          - fy
+          - ga
+          - gd
+          - gl
+          - he
+          - hi
+          - hr
+          - hsb
+          - hu
+          - hy
+          - ia
+          - id
+          - ig
+          - io
+          - is
+          - it
+          - ja
+          - ka
+          - kab
+          - kk
+          - km
+          - kn
+          - ko
+          - ky
+          - lb
+          - lt
+          - lv
+          - mk
+          - ml
+          - mn
+          - mr
+          - ms
+          - my
+          - nb
+          - ne
+          - nl
+          - nn
+          - os
+          - pa
+          - pl
+          - pt
+          - pt-br
+          - ro
+          - ru
+          - sk
+          - sl
+          - sq
+          - sr
+          - sr-latn
+          - sv
+          - sw
+          - ta
+          - te
+          - tg
+          - th
+          - tk
+          - tr
+          - tt
+          - udm
+          - uk
+          - ur
+          - uz
+          - vi
+          - zh-hans
+          - zh-hant
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/vnd.oai.openapi:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/yaml:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/vnd.oai.openapi+json:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /api/topping/:
+    get:
+      operationId: api_topping_list
+      description: A Viewset to CRUD toppings
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Topping'
+          description: ''
+    post:
+      operationId: api_topping_create
+      description: A Viewset to CRUD toppings
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Topping'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Topping'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Topping'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Topping'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Topping'
+              examples:
+                DuplicateEntry:
+                  value:
+                    error: 'Duplicate Topping: <name>'
+                  summary: Duplicate Entry
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Topping'
+              examples:
+                Forbidden:
+                  value:
+                    detail: Authentication credentials were not provided.
+                NotOwner:
+                  value:
+                    detail: Only owners are allowed to create toppings.
+                  summary: Not Owner
+          description: ''
+  /api/topping/{id}/:
+    patch:
+      operationId: api_topping_partial_update
+      description: A Viewset to CRUD toppings
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this topping.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTopping'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTopping'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTopping'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Topping'
+          description: ''
+    delete:
+      operationId: api_topping_destroy
+      description: A Viewset to CRUD toppings
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this topping.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+  /login-chef/:
+    get:
+      operationId: login_chef_retrieve
+      description: A Viewset to manage a pizza shop
+      tags:
+      - login-chef
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+components:
+  schemas:
+    PatchedPizza:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        toppings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Topping'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedTopping:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+    Pizza:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        toppings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Topping'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - name
+      - toppings
+      - updated_at
+    PizzaMasterPiece:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        pizza:
+          $ref: '#/components/schemas/Pizza'
+        topping:
+          $ref: '#/components/schemas/Topping'
+      required:
+      - id
+      - pizza
+      - topping
+    Topping:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - name
+      - updated_at
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid

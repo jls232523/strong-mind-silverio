@@ -1,0 +1,15 @@
+{% extends 'index.html' %}
+
+{% block title %}Manage Toppings - Pizza Shop{% endblock %}
+
+{% block content %}
+    <h2>Manage Toppings</h2>
+    <ul>
+        {% for topping in toppings %}
+            <li>{{ topping.name }}</li>
+             <button onclick="location.href='{% url 'update-topping' topping.id %}'">Edit</button>
+            <button onclick="location.href='{% url 'delete-topping' topping.id %}'">Delete</button>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'create-topping' %}">Add New Topping</a>
+{% endblock %}
