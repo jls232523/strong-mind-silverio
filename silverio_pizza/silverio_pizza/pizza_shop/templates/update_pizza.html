@@ -3,6 +3,9 @@
 {% block title %}Update Pizza - Pizza Shop{% endblock %}
 
 {% block content %}
+    {% load static %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
     <h2>Update Pizza</h2>
     <form method="post" id="update-form">
         {% csrf_token %}

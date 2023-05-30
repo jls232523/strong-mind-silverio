@@ -3,17 +3,23 @@
 {% block title %}Manage Pizzas - Pizza Shop{% endblock %}
 
 {% block content %}
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/manage.css' %}">
+
     <h2>Manage Pizzas</h2>
     <ul>
         {% for pizza in pizzas %}
-            <li>{{ pizza.name }}</li>
-            <ul>
-                {% for topping in pizza.toppings %}
-                    <li>{{ topping.name }}</li>
-                {% endfor %}
-            </ul>
-            <button onclick="location.href='{% url 'update-pizza' pizza.id %}'">Edit</button>
-            <button onclick="location.href='{% url 'delete-pizza' pizza.id %}'">Delete</button>
+            <li>{{ pizza.name }}
+             <button class="edit" onclick="location.href='{% url 'update-pizza' pizza.id %}'">Edit</button>
+            <button class="delete" onclick="location.href='{% url 'delete-pizza' pizza.id %}'">Delete</button>
+            </li>
+{#            <ul>#}
+{#                {% for topping in pizza.toppings %}#}
+{#                    <li>{{ topping.name }}</li>#}
+{#                {% endfor %}#}
+{#            </ul>#}
+
         {% endfor %}
     </ul>
 

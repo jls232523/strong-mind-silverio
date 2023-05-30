@@ -1,8 +1,10 @@
 {% extends 'index.html' %}
 
 {% block title %}Manage Toppings - Pizza Shop{% endblock %}
+{% load static %}
 
 {% block content %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
     <form method="post" action="{% url 'create-topping' %}">
         {% csrf_token %}
         <label for="name">Topping Name:</label>

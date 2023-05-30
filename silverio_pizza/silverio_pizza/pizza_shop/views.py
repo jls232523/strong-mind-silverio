@@ -20,7 +20,7 @@ from .forms import PizzaForm, ToppingForm
 from ..pizza.models import Pizza
 from ..topping.models import Topping
 from ..topping.services import ToppingService
-
+from ..settings import base
 
 def login_chef(request):
     load_dotenv()
@@ -97,7 +97,6 @@ def load_pizzas_for_chef(request, user):
 def create_pizza(request):
     if request.method == 'POST':
         form = PizzaForm(request.POST)
-        print(form.errors)
         if form.is_valid():
             json_data = process_pizza_form(form)
             token = get_session_token(request)
@@ -170,13 +169,17 @@ def delete_pizza(request, pizza_id):
     response = requests.delete(complete_url, headers={'Authorization': f'Token {token}'})
     return login_chef(request)
 
+
 def get_session_token(request):
     return request.session.get('token')
 
 
 def get_complete_url(request, path):
     url = reverse(path)
-    return 'http://' + request.get_host() + "/api" + url
+    if base.DEBUG == "0":
+        return 'https://' + request.get_host() + "/api" + url
+    else:
+        return 'http://' + request.get_host() + "/api" + url
 
 
 def process_pizza_form(form):
@@ -210,19 +213,16 @@ def process_topping_form(form):
 
 @csrf_protect
 def create_topping(request):
-    print("create")
     if request.method == 'POST':
         form = ToppingForm(request.POST)
-        print(form.errors)
 
         if form.is_valid():
             json_data = process_topping_form(form)
             token = get_session_token(request)
-            print(token)
             complete_url = get_complete_url(request, 'topping-list')
-            response = requests.post(complete_url, headers={'Authorization': f'Token {token}', 'Content-Type':
-                'application/json'}, data=json_data)
-            print(response.content)
+
+            response = requests.request(url=complete_url, headers={'Authorization': f'Token {token}', 'Content-Type':
+                'application/json'}, data=json_data, method='POST')
 
             if response.status_code == 201:
                 return login_owner(request)

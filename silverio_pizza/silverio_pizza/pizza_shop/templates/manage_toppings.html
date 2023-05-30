@@ -3,13 +3,20 @@
 {% block title %}Manage Toppings - Pizza Shop{% endblock %}
 
 {% block content %}
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/manage.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
     <h2>Manage Toppings</h2>
     <ul>
         {% for topping in toppings %}
-            <li>{{ topping.name }}</li>
-             <button onclick="location.href='{% url 'update-topping' topping.id %}'">Edit</button>
-            <button onclick="location.href='{% url 'delete-topping' topping.id %}'">Delete</button>
+            <li>{{ topping.name }}
+                <button class="edit" onclick="location.href='{% url 'update-topping' topping.id %}'">Edit</button>
+            <button class="delete" onclick="location.href='{% url 'delete-topping' topping.id %}'">Delete</button>
+            </li>
+
         {% endfor %}
     </ul>
     <a href="{% url 'create-topping' %}">Add New Topping</a>
+
 {% endblock %}

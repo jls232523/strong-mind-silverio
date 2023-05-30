@@ -3,19 +3,24 @@
 {% block title %}Manage Pizzas - Pizza Shop{% endblock %}
 
 {% block content %}
-    <form method="post" action="{% url 'create-pizza' %}">
-        {% csrf_token %}
-        <label for="name">Pizza Name:</label>
-        <input type="text" name="name" id="name" required>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 
-        <label for="toppings">Toppings:</label>
-        {% for topping in toppings %}
-            <input type="checkbox" name="toppings" id="{{ topping.id }}" value="{{ topping.id }}">
-            <label for="{{ topping.id }}">{{ topping.name }}</label><br>
-        {% endfor %}
+    <div class="container-2">
+        <form method="post" action="{% url 'create-pizza' %}">
+            {% csrf_token %}
+            <label for="name">Pizza Name:</label>
+            <input type="text" name="name" id="name" required>
 
-        <button type="submit">Create Pizza</button>
+            <label for="toppings">Toppings:</label>
+            {% for topping in toppings %}
+                <input type="checkbox" name="toppings" id="{{ topping.id }}" value="{{ topping.id }}">
+                <label for="{{ topping.id }}">{{ topping.name }}</label><br>
+            {% endfor %}
 
-    </form>
-     <label for="error">Errors: {{ error }}</label>
+            <button type="submit">Create Pizza</button>
+        </form>
+        {% if error %}
+            <label for="error" class="centered-error">Errors: {{ error }}</label>
+        {% endif %}    </div>
 {% endblock %}

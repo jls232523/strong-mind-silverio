@@ -34,3 +34,5 @@ class ToppingService:
             return topping
         except Topping.DoesNotExist:
             raise NotFound({'error': f'Topping does not exist'}, code='invalid')
+        except IntegrityError:
+            raise NotFound({'error': f'Topping already exists'}, code='invalid')

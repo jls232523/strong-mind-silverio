@@ -8,9 +8,9 @@ WORKDIR /usr/src/
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# install psycopg2 dependencies
-RUN apk update \
-    && apk add postgresql-dev gcc python3-dev musl-dev
+# # install psycopg2 dependencies
+# RUN apk update \
+#     && apk add postgresql-dev gcc python3-dev musl-dev
 
 # install dependencies
 RUN pip install --upgrade pip
@@ -26,9 +26,8 @@ COPY . .
 # copy entrypoint.sh
 COPY ./entrypoint.sh .
 
-RUN ls
 # RUN sed -i 's/\r$//g' /usr/src/silverio_pizza/entrypoint.sh
 RUN chmod u+x /usr/src/entrypoint.sh
 
-# run entrypoint.sh
-ENTRYPOINT ["/usr/src/silverio_pizza/entrypoint.sh"]
+# # # run entrypoint.sh
+# ENTRYPOINT ["/usr/src/silverio_pizza/entrypoint.sh"]

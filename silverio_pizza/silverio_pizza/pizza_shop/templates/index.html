@@ -1,28 +1,30 @@
 <!DOCTYPE html>
+{% load static %}
+
 <html>
 <head>
     <title>{% block title %}Silverio Pizza{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
+
 </head>
 <body>
-    <header>
-        <h1>Silverio Pizza</h1>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-            </ul>
-        </nav>
-    </header>
+        <header>
+            <h1>Silverio Pizza</h1>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                </ul>
+            </nav>
+        </header>
+    <div class="container">
 
-    <main>
-        {% block content %}
-            <p>Choose your role:</p>
-            <a href="{% url 'login-chef' %}" role="button">Chef</a>
-            <a href="{% url 'login-owner' %}" role="button">Owner</a>
-        {% endblock %}
-    </main>
-
-    <footer>
-        <p>&copy; 2023 Pizza Shop</p>
-    </footer>
+        <main>
+            {% block content %}
+                <p>Choose your role:</p>
+                <a href="{% url 'login-chef' %}" role="button">Chef</a>
+                <a href="{% url 'login-owner' %}" role="button">Owner</a>
+            {% endblock %}
+        </main>
+    </div>
 </body>
 </html>

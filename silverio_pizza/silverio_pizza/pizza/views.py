@@ -72,10 +72,8 @@ class PizzaView(viewsets.ViewSet):
     def create(self, request):
         if not IsChefUser().has_permission(request, self):
             raise PermissionDenied("Only chefs are allowed to create pizzas.")
-        print("cerate")
         pizza = PizzaService.create_pizza_with_toppings(request.data)
         pizza_serializer = PizzaSerializer(pizza)
-        print(pizza)
 
         return Response(pizza_serializer.data, status=201)
 
